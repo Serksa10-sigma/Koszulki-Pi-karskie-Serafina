@@ -1,28 +1,77 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sklep Serksa10</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("RJJFsY3K2XhLMlepZ");
+    })();
+  </script>
   <style>
     body {
-      background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: black;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    /* Animowane tło z gwiazdkami */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(white 1px, transparent 1px);
+      background-size: 20px 20px;
+      animation: starMove 60s linear infinite;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes starMove {
+      0% {background-position: 0 0;}
+      100% {background-position: 1000px 1000px;}
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 30px;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
     }
     .product {
+      background-color: #111;
       border: 1px solid #444;
       border-radius: 10px;
       padding: 10px;
-      margin-bottom: 20px;
+      flex: 1 1 250px;
+      max-width: 300px;
       display: flex;
       align-items: center;
+      transition: transform 0.3s ease;
+    }
+    .product:hover {
+      transform: scale(1.02);
     }
     .product img {
-      max-width: 150px;
-      margin-right: 20px;
+      max-width: 120px;
+      margin-right: 15px;
+      border-radius: 5px;
+    }
+    .product div {
+      flex: 1;
     }
     button {
       padding: 10px 20px;
@@ -31,72 +80,130 @@
       border: none;
       cursor: pointer;
       font-weight: bold;
+      border-radius: 5px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
     }
+    button:hover {
+      background-color: #ddd;
+    }
+
     #cart {
-      border-top: 1px solid white;
       margin-top: 40px;
+      border-top: 1px solid white;
       padding-top: 20px;
+      position: relative;
+      z-index: 1;
     }
-    #blik {
+    #cart h2 {
+      margin-bottom: 10px;
+    }
+    #cart-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 15px;
+    }
+    #cart-list li {
+      margin-bottom: 5px;
+    }
+
+    #discount, #blik {
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"] {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media(max-width: 600px) {
+      .product {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .product img {
+        margin: 0 0 10px 0;
+        max-width: 100%;
+      }
+      #discount, #blik {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
   <h1>Sklep Serksa10</h1>
-
-  <div class="product">
-    <img src="https://www.bing.com/th?id=OPEC.HxAbBEWD6MYANw474C474&o=5&pid=21.1&h=124&qlt=100&dpr=1&bw=6&bc=FFFFFF&w=138" alt="Messi Inter Miami">
-    <div>
-      <h2>Koszulka Lionel Messi – Inter Miami</h2>
-      <p>Cena: 89 zł</p>
-      <button onclick="addToCart('Koszulka Messi', 89)">Zamów teraz</button>
+  <div class="products">
+    <div class="product">
+      <img src="https://www.bing.com/th?id=OPEC.JJmaGlaNlSuzbQ474C474&o=5&pid=21.1&h=136&qlt=100&dpr=1&pcl=f5f5f5&w=150" alt="Koszulka Real Madryt" />
+      <div>
+        <h2>Koszulka Real Madryt</h2>
+        <p>Cena: 139 zł</p>
+        <button onclick="addToCart('Koszulka Real Madryt', 149)">Zamów teraz</button>
+      </div>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="https://www.bing.com/th?id=OPEC.bZaDST0L5EZ6pg474C474&o=5&pid=21.1&h=124&qlt=100&dpr=1&bw=6&bc=FFFFFF&w=138" alt="Real Madryt Mbappé">
-    <div>
-      <h2>Koszulka Real Madryt – Mbappé</h2>
-      <p>Cena: 159 zł</p>
-      <button onclick="addToCart('Koszulka Real Madryt', 159)">Zamów teraz</button>
+    <div class="product">
+      <img src="https://www.bing.com/th?id=OPEC.v%2brj9LJxgXNirg474C474&o=5&pid=21.1&w=136&h=158&qlt=100&dpr=1&pcl=f5f5f5" alt="Koszulka Atletico Madryt" />
+      <div>
+        <h2>Koszulka Atletico Madryt</h2>
+        <p>Cena: 129 zł</p>
+        <button onclick="addToCart('Koszulka Atletico Madryt', 139)">Zamów teraz</button>
+      </div>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="https://www.bing.com/th?id=OPEC.BOfvcDjnBqyN6g474C474&o=5&pid=21.1&w=148&h=188&qlt=100&dpr=1&bw=6&bc=FFFFFF" alt="Barca Lewandowski">
-    <div>
-      <h2>Koszulka FC Barcelona – Lewandowski</h2>
-      <p>Cena: 149 zł</p>
-      <button onclick="addToCart('Koszulka Barcelona', 149)">Zamów teraz</button>
+    <div class="product">
+      <img src="https://www.bing.com/th?id=OPEC.B0cnskXBL4s8Zw474C474&o=5&pid=21.1&w=160&h=212&qlt=100&dpr=1&pcl=f5f5f5" alt="Koszulka FC Barcelona" />
+      <div>
+        <h2>Koszulka FC Barcelona</h2>
+        <p>Cena: 129 zł</p>
+        <button onclick="addToCart('Koszulka FC Barcelona', 149)">Zamów teraz</button>
+      </div>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="https://www.bing.com/th?id=OPEC.v%2brj9LJxgXNirg474C474&o=5&pid=21.1&w=124&h=124&qlt=100&dpr=1&bw=6&bc=FFFFFF" alt="Atletico Madryt">
-    <div>
-      <h2>Koszulka Atletico Madryt – Griezmann</h2>
-      <p>Cena: 139 zł</p>
-      <button onclick="addToCart('Koszulka Atletico', 139)">Zamów teraz</button>
+    <div class="product">
+      <img src="https://www.bing.com/th/id/OIP.az_1RWJXQOPhySrd8sgRDwHaHx?w=229&h=215&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2" alt="Koszulka Legia Warszawa" />
+      <div>
+        <h2>Koszulka Legia Warszawa</h2>
+        <p>Cena: 129 zł</p>
+        <button onclick="addToCart('Koszulka Legia Warszawa', 139)">Zamów teraz</button>
+      </div>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="https://th.bing.com/th/id/OIP.fMkfAHmACPDADP0758W7xwHaHa?w=151&h=180&c=7&r=0&o=5&pid=1.7" alt="Piłka Adidas UEFA">
-    <div>
-      <h2>Piłka Adidas UEFA Champions League</h2>
-      <p>Cena: 119 zł</p>
-      <button onclick="addToCart('Piłka Adidas UEFA', 119)">Zamów teraz</button>
+    <div class="product">
+      <img src="https://www.bing.com/th?id=OPEC.ZWjjzxyeEfSllA474C474&o=5&pid=21.1&h=124&qlt=100&dpr=1&bw=6&bc=FFFFFF&w=138" alt="Piłka Adidas UEFA" />
+      <div>
+        <h2>Piłka Adidas UEFA</h2>
+        <p>Cena: 79 zł</p>
+        <button onclick="addToCart('Piłka Adidas UEFA', 119)">Zamów teraz</button>
+      </div>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="https://www.bing.com/th?id=OPEC.JeC6zZQlW%2f%2fXmw474C474&o=5&pid=21.1&w=160&h=160&qlt=100&dpr=1&c=8&pcl=f5f5f5" alt="Buty Nike Mercurial">
-    <div>
-      <h2>Buty piłkarskie Nike Mercurial</h2>
-      <p>Cena: 289 zł</p>
-      <button onclick="addToCart('Buty Nike Mercurial', 289)">Zamów teraz</button>
+    <div class="product">
+      <img src="https://www.bing.com/th?id=OPEC.fsEY4ePYfljcRQ474C474&o=5&pid=21.1&h=136&qlt=100&dpr=1&pcl=f5f5f5&w=150" alt="Buty Nike Mercurial" />
+      <div>
+        <h2>Buty Nike Mercurial</h2>
+        <p>Cena: 129 zł</p>
+        <button onclick="addToCart('Buty Nike Mercurial', 289)">Zamów teraz</button>
+      </div>
     </div>
   </div>
 
@@ -105,12 +212,19 @@
     <ul id="cart-list"></ul>
     <p><strong>Razem: <span id="total">0</span> zł</strong></p>
 
+    <div id="discount">
+      <label for="discount-code">Wprowadź kod rabatowy:</label>
+      <input type="text" id="discount-code" placeholder="Kod rabatowy" />
+    </div>
+
     <div id="blik">
       <label for="blik-code">Kod BLIK:</label>
-      <input type="text" id="blik-code" maxlength="6" placeholder="np. 123456">
+      <input type="text" id="blik-code" maxlength="6" placeholder="np. 123456" />
+      <label for="email">Twój e-mail:</label>
+      <input type="email" id="email" placeholder="np. serafin@example.com" />
       <button onclick="placeOrder()">Zamów</button>
     </div>
-    <p style="margin-top: 40px;">Serksa10 2025 – wszystkie prawa zastrzeżone.</p>
+    <p>Serksa10 2025 – wszystkie prawa zastrzeżone.</p>
   </div>
 
   <script>
@@ -131,24 +245,41 @@
         cartList.appendChild(li);
         sum += item.price;
       });
-      total.textContent = sum;
+      const discountCode = document.getElementById("discount-code").value;
+      if (discountCode === "SKLEP50") sum *= 0.5;
+      total.textContent = sum.toFixed(2);
     }
 
     function placeOrder() {
       const code = document.getElementById("blik-code").value;
-      if (!/^\d{6}$/.test(code)) {
+      const email = document.getElementById("email").value;
+      if (!/^[0-9]{6}$/.test(code)) {
         alert("Wpisz poprawny 6-cyfrowy kod BLIK!");
+        return;
+      }
+      if (!email || !email.includes("@")) {
+        alert("Wpisz poprawny e-mail!");
         return;
       }
       if (cart.length === 0) {
         alert("Twój koszyk jest pusty.");
         return;
       }
-      alert("Zamówienie złożone! Dziękujemy ❤");
-      cart.length = 0;
-      updateCart();
-      document.getElementById("blik-code").value = "";
+      emailjs.send("service_jewxqe1", "template_glgrc9q", {
+        to_email: email,
+        message: "Twoje zamówienie zostało przyjęte! Paczka jest w drodze i dotrze w ciągu 4 dni."
+      }).then(() => {
+        alert("Zamówienie złożone! Sprawdź swój e-mail ❤");
+        cart.length = 0;
+        updateCart();
+        document.getElementById("blik-code").value = "";
+        document.getElementById("email").value = "";
+      }, (error) => {
+        alert("Błąd podczas wysyłania e-maila: " + error.text);
+      });
     }
+
+    document.getElementById("discount-code").addEventListener("input", updateCart);
   </script>
 
 </body>
